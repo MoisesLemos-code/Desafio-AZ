@@ -68,6 +68,21 @@ public class VeiculoResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 	
+	@RequestMapping(value="/vendido/", method=RequestMethod.GET)
+	public ResponseEntity<List<VeiculoDTO>> findVendido() {
+		List<Veiculo> list = service.findVendido();
+		List<VeiculoDTO> listDto = list.stream().map(obj -> new VeiculoDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
+	}
+	
+	@RequestMapping(value="/venda/", method=RequestMethod.GET)
+	public ResponseEntity<List<VeiculoDTO>> findVenda() {
+		List<Veiculo> list = service.findVenda();
+		List<VeiculoDTO> listDto = list.stream().map(obj -> new VeiculoDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
+	}
+	
+	
 	@RequestMapping(value="/page",method=RequestMethod.GET)
 	public ResponseEntity<Page<VeiculoDTO>> findPage(
 			@RequestParam(value="page",defaultValue="0") Integer page, 

@@ -52,6 +52,14 @@ public class VeiculoService {
 		return repo.findAll();
 	}
 	
+	public List<Veiculo> findVendido(){
+		return repo.findVeiculoVendido();
+	}
+	
+	public List<Veiculo> findVenda(){
+		return repo.findVeiculoVenda();
+	}
+	
 	public Page<Veiculo> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		
