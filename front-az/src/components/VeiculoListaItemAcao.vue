@@ -41,11 +41,7 @@
         :value="veiculoSelecionado.valor"
         @input="veiculoSelecionado = {propriedade: 'valor', valor: $event.target.value}"
       />
-      <v-switch
-        :value="veiculoSelecionado.vendido"
-        @click="vendaAcao"
-        :label="`Status: ${veiculoSelecionado.vendido ? `vendido!` : `à venda!`  }`"
-      ></v-switch>
+      <v-btn color="success" @click="vendaAcao">{{switchValue ? `vendido!` : `vender` }}</v-btn>
     </div>
     <v-btn @click="salvarVeiculo" color="primary">Salvar</v-btn>
     <v-btn v-if="tipo !== 'cadastrar'" id="btn-excluir" @click="excluirAcao" color="error">Excluir</v-btn>
@@ -70,6 +66,7 @@ export default {
       message: "",
       color: "",
       acaoDialog: "",
+      switchValue: this.veiculo.vendido,
       veiculoLocal: this.veiculo
     };
   },
@@ -85,23 +82,18 @@ export default {
       }
     }
   },
-  watch: {
-    veiculo(novoVeiculo) {
-      this.veiculoLocal = Object.assign({}, novoVeiculo);
-    }
-  },
   methods: {
     salvarVeiculo() {
       if (this.tipo === "editar") {
         eventBus.atualizarVeiculo(this.veiculoLocal);
       } else if (this.tipo === "cadastrar") {
         console.log(this.veiculoLocal);
-        // eventBus.cadastrarVeiculo(this.veiculoLocal)
+        eventBus.cadastrarVeiculo(this.veiculoLocal);
       }
     },
     vendaAcao() {
       this.dialog = true;
-      if (this.veiculoSelecionado.vendido) {
+      if (this.switchValue) {
         this.message = "Deseja alterar o status para à venda?";
       } else {
         this.message = "Deseja vender este veículo?";
@@ -121,11 +113,11 @@ export default {
         eventBus.excluirVeiculo(this.veiculoLocal);
         eventBus.cancelarAcao();
       } else if (this.acaoDialog === "Confirmar") {
+        this.switchValue = !this.switchValue;
         this.veiculoSelecionado = {
           propriedade: "vendido",
-          valor: !this.veiculoSelecionado.vendido
+          valor: this.switchValue
         };
-        //this.veiculoSelecionado.vendido = !this.veiculoSelecionado.vendido;
       }
     },
     cancelarVeiculo() {

@@ -3,7 +3,7 @@
     <v-card-title>{{ veiculo.marca }} {{ veiculo.modelo }}</v-card-title>
     <v-card-text>{{ veiculo.vendido ? "vendido" : "à venda" }}</v-card-text>
     <v-card-actions>
-      <v-btn @click="selecionar" color="primary">Selecionar</v-btn>
+      <v-btn :disabled="selecionarAtivo" @click="selecionar" color="primary">Selecionar</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -16,7 +16,8 @@ export default {
     veiculo: {
       type: Object,
       required: true
-    }
+    },
+    selecionarAtivo: Boolean
   },
   methods: {
     selecionar() {

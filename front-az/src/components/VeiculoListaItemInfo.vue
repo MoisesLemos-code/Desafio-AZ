@@ -7,10 +7,10 @@
         <h4 class="card-title">{{ veiculo.marca}} {{ veiculo.modelo }}</h4>
         <div id="card-info">
           <h5>R${{ veiculo.valor }}</h5>
-          <p>{{ veiculo.vendido ? 'vendido!' : 'à venda!' }}</p>
+          <p>{{ veiculo.vendido ? 'vendido! (não pode ser editado)' : 'à venda!' }}</p>
         </div>
         <v-btn @click="cancelarVeiculo">Cancelar</v-btn>
-        <v-btn @click="editar" color="secondary">Editar</v-btn>
+        <v-btn :disabled="veiculo.vendido" @click="editar" color="secondary">Editar</v-btn>
       </div>
     </div>
     <p v-else>Nenhum veiculo selecionado</p>
@@ -25,6 +25,11 @@ export default {
     return {
       veiculo: undefined
     };
+  },
+  watch: {
+    veiculo(novoVeiculo) {
+      this.veiculo = novoVeiculo;
+    }
   },
   created() {
     eventBus.$on("selecionarVeiculo", veiculoSelecionado => {

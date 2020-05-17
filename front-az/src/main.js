@@ -9,16 +9,20 @@ Vue.config.productionTip = false
 
 export const eventBus = new Vue({
   methods: {
+    async cadastrarVeiculo(veiculo) {
+      await Metodos.salvar(veiculo)
+      this.$emit('atualizarLista')
+    },
     selecionarVeiculo(veiculoSelecionado) {
       this.$emit('selecionarVeiculo', veiculoSelecionado)
     },
-    atualizarVeiculo(veiculoAtualizado) {
+    async atualizarVeiculo(veiculoAtualizado) {
+      await Metodos.atualizar(veiculoAtualizado)
       this.$emit('atualizarVeiculo', veiculoAtualizado)
-      Metodos.atualizar(veiculoAtualizado)
     },
-    excluirVeiculo(veiculoSelecionado) {
-      this.$emit('excluirVeiculo')
-      Metodos.apagar(veiculoSelecionado)
+    async excluirVeiculo(veiculoSelecionado) {
+      await Metodos.apagar(veiculoSelecionado)
+      this.$emit('atualizarLista')
     },
     cancelarAcao() {
       this.$emit("cancelarAcao");

@@ -16,6 +16,7 @@
             v-for="veiculo in veiculos"
             :key="veiculo.codigo"
             :veiculo="veiculo"
+            :selecionarAtivo="editar"
             :class="aplicarClasseAtiva(veiculo)"
           />
         </ul>
@@ -70,9 +71,6 @@ export default {
       }
     };
   },
-  mounted() {
-    this.listarTodos();
-  },
   computed: {
     pageNumber: function() {
       this.listarTodos();
@@ -83,7 +81,7 @@ export default {
     async listarTodos() {
       try {
         let page = this.pageConfig.page;
-        await Metodos.buscaPersonalizada(4, --page, "ASC").then(resposta => {
+        await Metodos.buscaPersonalizada(4, --page, "DESC").then(resposta => {
           this.veiculos = resposta.data.content;
           this.pageConfig.length = resposta.data.totalPages;
         });
@@ -111,7 +109,6 @@ export default {
     },
     editarVeiculo(veiculo) {
       this.editar = true;
-      this.adicionar = false;
       this.veiculoSelecionado = veiculo;
       this.tipo = "editar";
     },
@@ -126,6 +123,11 @@ export default {
   },
   created() {
     eventBus.$on("selecionarVeiculo", veiculoSelecionado => {
+      if (this.veiculoSelecionado != undefined) {
+        if (this.veiculoSelecionado.codigo != veiculoSelecionado.codigo) {
+          this.editar = false;
+        }
+      }
       this.veiculoSelecionado = veiculoSelecionado;
       this.adicionar = false;
     });
@@ -134,7 +136,7 @@ export default {
       this.editar = false;
       this.adicionar = true;
     });
-    eventBus.$on("excluirVeiculo", () => {
+    eventBus.$on("atualizarLista", () => {
       this.listarTodos();
     });
   }

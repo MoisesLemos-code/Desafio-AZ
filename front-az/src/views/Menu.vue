@@ -10,22 +10,9 @@
                 <v-toolbar-title class="v-toolbar-text">Menu principal</v-toolbar-title>
               </v-toolbar>
               <v-card-text>
-                <v-btn
-                  to="/VeiculoCadastros"
-                  color="primary"
-                  dark
-                  v-on="on"
-                  block
-                  outlined
-                >Cadastros</v-btn>
-                <v-btn
-                  to="/VeiculoCadastros"
-                  color="primary"
-                  dark
-                  v-on="on"
-                  block
-                  outlined
-                >Relatórios</v-btn>
+                <v-btn to="/VeiculoCadastros" color="primary" dark block outlined>Cadastros</v-btn>
+                <v-btn to="/VeiculoVenda" color="primary" dark block outlined>Veiculos à venda</v-btn>
+                <v-btn to="/VeiculoVendido" color="primary" dark block outlined>Veiculos vendidos</v-btn>
               </v-card-text>
             </v-card>
           </v-col>
