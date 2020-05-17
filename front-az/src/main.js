@@ -15,6 +15,13 @@ export const eventBus = new Vue({
     atualizarVeiculo(veiculoAtualizado) {
       this.$emit('atualizarVeiculo', veiculoAtualizado)
       Metodos.atualizar(veiculoAtualizado)
+    },
+    excluirVeiculo(veiculoSelecionado) {
+      this.$emit('excluirVeiculo')
+      Metodos.apagar(veiculoSelecionado)
+    },
+    cancelarAcao() {
+      this.$emit("cancelarAcao");
     }
   }
 })

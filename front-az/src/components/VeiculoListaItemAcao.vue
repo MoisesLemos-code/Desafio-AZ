@@ -1,8 +1,18 @@
 <template>
   <div>
-    <h2>Editar veiculo</h2>
-
+    <h2 v-if="tipo === `editar`">Editar veiculo</h2>
+    <h2 v-if="tipo === `cadastrar`">Cadastrar veiculo</h2>
     <div class="form-group">
+      <v-dialog v-model="dialog" max-width="400">
+        <v-card>
+          <v-card-title>Atenção!</v-card-title>
+          <v-card-text>{{ message }}</v-card-text>
+          <v-card-actions>
+            <v-btn @click="dialog = false">Cancelar</v-btn>
+            <v-btn @click="acaoVeiculo" :color="color">{{acaoDialog}}</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <label>marca:</label>
       <input
         type="text"
@@ -31,8 +41,15 @@
         :value="veiculoSelecionado.valor"
         @input="veiculoSelecionado = {propriedade: 'valor', valor: $event.target.value}"
       />
+      <v-switch
+        :value="veiculoSelecionado.vendido"
+        @click="vendaAcao"
+        :label="`Status: ${veiculoSelecionado.vendido ? `vendido!` : `à venda!`  }`"
+      ></v-switch>
     </div>
     <v-btn @click="salvarVeiculo" color="primary">Salvar</v-btn>
+    <v-btn v-if="tipo !== 'cadastrar'" id="btn-excluir" @click="excluirAcao" color="error">Excluir</v-btn>
+    <v-btn @click="cancelarVeiculo">Cancelar</v-btn>
   </div>
 </template>
 
@@ -44,10 +61,15 @@ export default {
     veiculo: {
       type: Object,
       required: true
-    }
+    },
+    tipo: String
   },
   data() {
     return {
+      dialog: false,
+      message: "",
+      color: "",
+      acaoDialog: "",
       veiculoLocal: this.veiculo
     };
   },
@@ -70,8 +92,51 @@ export default {
   },
   methods: {
     salvarVeiculo() {
-      eventBus.atualizarVeiculo(this.veiculoLocal);
+      if (this.tipo === "editar") {
+        eventBus.atualizarVeiculo(this.veiculoLocal);
+      } else if (this.tipo === "cadastrar") {
+        console.log(this.veiculoLocal);
+        // eventBus.cadastrarVeiculo(this.veiculoLocal)
+      }
+    },
+    vendaAcao() {
+      this.dialog = true;
+      if (this.veiculoSelecionado.vendido) {
+        this.message = "Deseja alterar o status para à venda?";
+      } else {
+        this.message = "Deseja vender este veículo?";
+      }
+      this.color = "success";
+      this.acaoDialog = "Confirmar";
+    },
+    excluirAcao() {
+      this.dialog = true;
+      this.message = "Deseja excluir este veículo?";
+      this.color = "error";
+      this.acaoDialog = "Excluir";
+    },
+    acaoVeiculo() {
+      this.dialog = false;
+      if (this.acaoDialog === "Excluir") {
+        eventBus.excluirVeiculo(this.veiculoLocal);
+        eventBus.cancelarAcao();
+      } else if (this.acaoDialog === "Confirmar") {
+        this.veiculoSelecionado = {
+          propriedade: "vendido",
+          valor: !this.veiculoSelecionado.vendido
+        };
+        //this.veiculoSelecionado.vendido = !this.veiculoSelecionado.vendido;
+      }
+    },
+    cancelarVeiculo() {
+      eventBus.cancelarAcao();
     }
   }
 };
 </script>
+
+<style>
+#btn-excluir {
+  margin-left: 5;
+}
+</style>

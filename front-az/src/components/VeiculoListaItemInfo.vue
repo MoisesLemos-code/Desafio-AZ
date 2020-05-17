@@ -9,6 +9,7 @@
           <h5>R${{ veiculo.valor }}</h5>
           <p>{{ veiculo.vendido ? 'vendido!' : 'à venda!' }}</p>
         </div>
+        <v-btn @click="cancelarVeiculo">Cancelar</v-btn>
         <v-btn @click="editar" color="secondary">Editar</v-btn>
       </div>
     </div>
@@ -29,10 +30,16 @@ export default {
     eventBus.$on("selecionarVeiculo", veiculoSelecionado => {
       this.veiculo = veiculoSelecionado;
     });
+    eventBus.$on("cancelarAcao", () => {
+      this.veiculo = undefined;
+    });
   },
   methods: {
     editar() {
       this.$emit("editarVeiculo", this.veiculo);
+    },
+    cancelarVeiculo() {
+      eventBus.cancelarAcao();
     }
   }
 };

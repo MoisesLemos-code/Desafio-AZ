@@ -1,6 +1,7 @@
 <template>
   <v-card max-width="344" outlined>
     <v-card-title>{{ veiculo.marca }} {{ veiculo.modelo }}</v-card-title>
+    <v-card-text>{{ veiculo.vendido ? "vendido" : "à venda" }}</v-card-text>
     <v-card-actions>
       <v-btn @click="selecionar" color="primary">Selecionar</v-btn>
     </v-card-actions>
@@ -25,10 +26,5 @@ export default {
 };
 </script>
 
-<style scoped>
-.v-card {
-  float: right;
-  margin-bottom: 15;
-}
-</style>
+
 
