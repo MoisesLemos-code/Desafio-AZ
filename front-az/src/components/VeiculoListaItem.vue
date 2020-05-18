@@ -1,5 +1,5 @@
 <template>
-  <v-card max-width="344" outlined>
+  <v-card width="300" outlined>
     <v-card-title>{{ veiculo.marca }} {{ veiculo.modelo }}</v-card-title>
     <v-card-text>{{ veiculo.vendido ? "vendido" : "à venda" }}</v-card-text>
     <v-card-actions>
@@ -26,6 +26,15 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.v-card {
+  margin-bottom: 5px;
+  margin-left: 5px;
+  animation-name: fade;
+  animation-duration: 600ms;
+}
+</style>
 
 
 

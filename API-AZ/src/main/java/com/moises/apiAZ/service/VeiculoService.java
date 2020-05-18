@@ -52,12 +52,16 @@ public class VeiculoService {
 		return repo.findAll();
 	}
 	
-	public List<Veiculo> findVendido(){
-		return repo.findVeiculoVendido();
+	public Page<Veiculo> findVendido(Integer page, Integer linesPerPage, String orderBy, String direction){
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		
+		return repo.findVeiculoVendido(pageRequest); 
 	}
 	
-	public List<Veiculo> findVenda(){
-		return repo.findVeiculoVenda();
+	public Page<Veiculo> findVenda(Integer page, Integer linesPerPage, String orderBy, String direction){
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		
+		return  repo.findVeiculoVenda(pageRequest); 
 	}
 	
 	public Page<Veiculo> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){

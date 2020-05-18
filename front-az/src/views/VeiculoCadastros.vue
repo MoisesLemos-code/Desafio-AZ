@@ -2,11 +2,14 @@
   <v-container fluid>
     <v-row class="v-row">
       <!-- coluna 1 -->
-      <v-col id="col-1" cols="12" sm="6" md="8">
+      <v-col cols="12" sm="6" md="8">
         <h2>Cadastros de Veículos</h2>
-        <VeiculosListaItemInfo v-if="!editar" @editarVeiculo="editarVeiculo" />
-        <VeiculosListaItemAcao v-if="editar" :veiculo="veiculoSelecionado" :tipo="tipo" />
-        <v-btn v-if="adicionar" @click="adicionarVeiculo" color="success">Adicionar</v-btn>
+        <hr />
+        <div id="col-1">
+          <VeiculosListaItemInfo v-if="!editar" @editarVeiculo="editarVeiculo" />
+          <VeiculosListaItemAcao v-if="editar" :veiculo="veiculoSelecionado" :tipo="tipo" />
+          <v-btn v-if="adicionar" @click="adicionarVeiculo" color="success">Adicionar</v-btn>
+        </div>
       </v-col>
 
       <!-- coluna 2 -->
@@ -17,7 +20,6 @@
             :key="veiculo.codigo"
             :veiculo="veiculo"
             :selecionarAtivo="editar"
-            :class="aplicarClasseAtiva(veiculo)"
           />
         </ul>
         <v-pagination
@@ -89,13 +91,6 @@ export default {
         console.log(err);
       }
     },
-    aplicarClasseAtiva(veiculoIterado) {
-      return {
-        active:
-          this.veiculoSelecionado &&
-          this.veiculoSelecionado.codigo === veiculoIterado.codigo
-      };
-    },
     adicionarVeiculo() {
       this.tipo = "cadastrar";
       this.adicionar = false;
@@ -119,6 +114,7 @@ export default {
       this.veiculos.splice(indice, 1, veiculoAtualizado);
       this.veiculoSelecionado = undefined;
       this.editar = false;
+      this.adicionar = true;
     }
   },
   created() {
@@ -150,6 +146,9 @@ export default {
   flex-direction: column;
   padding-left: 0;
   margin-bottom: 0;
+}
+#col-1 {
+  margin-top: 20px;
 }
 </style>
 

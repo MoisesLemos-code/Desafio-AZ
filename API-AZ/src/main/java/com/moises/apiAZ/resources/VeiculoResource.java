@@ -68,20 +68,27 @@ public class VeiculoResource {
 		return ResponseEntity.ok().body(listDto);
 	}
 	
-	@RequestMapping(value="/vendido/", method=RequestMethod.GET)
-	public ResponseEntity<List<VeiculoDTO>> findVendido() {
-		List<Veiculo> list = service.findVendido();
-		List<VeiculoDTO> listDto = list.stream().map(obj -> new VeiculoDTO(obj)).collect(Collectors.toList());
+	@RequestMapping(value="/vendido/",method=RequestMethod.GET)
+	public ResponseEntity<Page<VeiculoDTO>> findVendido(
+			@RequestParam(value="page",defaultValue="0") Integer page, 
+			@RequestParam(value="linesPerPage",defaultValue="24")Integer linesPerPage, 
+			@RequestParam(value="orderBy",defaultValue="codigo")String orderBy, 
+			@RequestParam(value="direction",defaultValue="ASC")String direction) {
+		Page<Veiculo> list = service.findVendido(page, linesPerPage, orderBy, direction);
+		Page<VeiculoDTO> listDto = list.map(obj -> new VeiculoDTO(obj));
 		return ResponseEntity.ok().body(listDto);
 	}
 	
-	@RequestMapping(value="/venda/", method=RequestMethod.GET)
-	public ResponseEntity<List<VeiculoDTO>> findVenda() {
-		List<Veiculo> list = service.findVenda();
-		List<VeiculoDTO> listDto = list.stream().map(obj -> new VeiculoDTO(obj)).collect(Collectors.toList());
+	@RequestMapping(value="/venda/",method=RequestMethod.GET)
+	public ResponseEntity<Page<VeiculoDTO>> findVenda(
+			@RequestParam(value="page",defaultValue="0") Integer page, 
+			@RequestParam(value="linesPerPage",defaultValue="24")Integer linesPerPage, 
+			@RequestParam(value="orderBy",defaultValue="codigo")String orderBy, 
+			@RequestParam(value="direction",defaultValue="ASC")String direction) {
+		Page<Veiculo> list = service.findVenda(page, linesPerPage, orderBy, direction);
+		Page<VeiculoDTO> listDto = list.map(obj -> new VeiculoDTO(obj));
 		return ResponseEntity.ok().body(listDto);
 	}
-	
 	
 	@RequestMapping(value="/page",method=RequestMethod.GET)
 	public ResponseEntity<Page<VeiculoDTO>> findPage(

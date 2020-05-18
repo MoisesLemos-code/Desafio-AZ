@@ -22,12 +22,14 @@ export default {
     return api.get('veiculo')
   },
 
-  listarVendidos: () => {
-    return api.get('veiculo/vendido')
+  listarVendidos: (lines, page, direction) => {
+    return api.get('/veiculo/vendido/?linesPerPage=' + lines
+      + '&page=' + page + '&direction=' + direction)
   },
 
-  listarVenda: () => {
-    return api.get('veiculo/venda')
+  listarVenda: (lines, page, direction) => {
+    return api.get('/veiculo/venda/?linesPerPage=' + lines
+      + '&page=' + page + '&direction=' + direction)
   },
 
   buscaPersonalizada: (lines, page, direction) => {
